@@ -1,0 +1,19 @@
+version: 2
+
+sources:
+    - name: stripe
+      description: A clone of a Postgress application database.
+      database: dbt_training
+      tables:
+        - name: payment
+          description: Raw payments data.
+          columns:
+            - name: id
+              description: Primary key for payments
+              tests:
+                - unique
+                - not_null
+          loaded_at_field: _batched_at
+          freshness: 
+            warn_after: { count: 36, period: hour }
+            error_after: { count: 56, period: hour }
